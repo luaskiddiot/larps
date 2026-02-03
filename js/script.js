@@ -4,10 +4,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const DEF = {
         links: [
             {n:"YouTube", u:"https://youtube.com"},
-            {n:"Roblox", u:"https://roblox.com"},
-            {n:"Proton", u:"https://mail.proton.me"}
+            {n:"Fern", u:"https://s3.amazonaws.com/fernisbest/index.html"},
+            {n:"Temp Mail", u:"https://temp-mail.io/en"}
         ],
-        user: "Guest", eng: "google", acc: "#ffffff",
+        user: "Nebula", eng: "google", acc: "#ff00f7",
         font: "'Inter', sans-serif", scale: 8,
         wEn: true, wHide: false, cel: false,
         side: "left", fmt24: true
