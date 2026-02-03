@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Start</title>
+    <link rel="icon" id="favicon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%23ffffff%22 rx=%2220%22/></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div class="background" id="bg"></div>
+    <div class="noise"></div>
+
+    <nav class="sidebar" id="bar">
+        <div class="brand"><i class="fa-solid fa-bolt"></i></div>
+        <ul class="list" id="links"></ul>
+        <div class="trigger" onclick="win(true)">
+            <div class="icon"><i class="fa-solid fa-sliders"></i></div>
+            <span class="label">System</span>
+        </div>
+    </nav>
+
+    <main class="stage">
+        <div class="weather" id="wthr">
+            <i class="fa-solid fa-cloud" id="w-icon"></i>
+            <span id="w-temp">--</span>
+            <span id="w-loc" style="border-left:1px solid rgba(255,255,255,0.1); padding-left:10px; color:#666">Locating</span>
+        </div>
+
+        <div class="clock-box" id="clk-box">
+            <div class="time" id="time">00:00</div>
+            <div class="date" id="date">LOADING</div>
+        </div>
+
+        <div class="greet" id="greet">Welcome</div>
+
+        <div class="search-wrap">
+            <div class="omnibox">
+                <i class="fa-solid fa-terminal" style="color:var(--dim)"></i>
+                <input type="text" class="input" id="search" placeholder="Command..." autocomplete="off">
+            </div>
+        </div>
+    </main>
+
+    <div class="window" id="win">
+        <div class="header" id="drag">
+            <span class="title">Preferences</span>
+            <i class="fa-solid fa-xmark close" onclick="win(false)"></i>
+        </div>
+        <div class="body">
+            <div class="nav">
+                <div class="tab active" onclick="tab('gen')">General</div>
+                <div class="tab" onclick="tab('app')">Appearance</div>
+                <div class="tab" onclick="tab('priv')">Privacy</div>
+                <div class="tab" onclick="tab('lay')">Layout</div>
+            </div>
+
+            <div class="content">
+                <div id="tab-gen" class="panel active">
+                    <div class="row">
+                        <div class="info"><h4>Identity</h4><p>User name</p></div>
+                        <input type="text" id="user" class="text" style="width:120px" oninput="save()">
+                    </div>
+                    <div class="row">
+                        <div class="info"><h4>Engine</h4><p>Search provider</p></div>
+                        <select id="eng" class="select" onchange="save()">
+                            <option value="google">Google</option>
+                            <option value="ddg">DuckDuckGo</option>
+                            <option value="bing">Bing</option>
+                            <option value="brave">Brave</option>
+                            <option value="startpage">StartPage</option>
+                            <option value="ecosia">Ecosia</option>
+                        </select>
+                    </div>
+                    
+                    <hr style="border:0; border-top:1px solid #222; margin:20px 0;">
+                    
+                    <h4 style="color:white; margin-bottom:15px; font-size:0.9rem;">Manage Shortcuts</h4>
+                    <div class="link-manage" id="link-list"></div>
+
+                    <div style="display:flex; gap:10px; margin-top:15px;">
+                        <input type="text" id="ln-name" class="text" placeholder="Name" style="width:40%">
+                        <input type="text" id="ln-url" class="text" placeholder="URL">
+                    </div>
+                    <button class="btn-sec" style="width:100%; margin-top:10px;" onclick="addLink()">Add Shortcut</button>
+                </div>
+
+                <div id="tab-app" class="panel">
+                    <div class="row">
+                        <div class="info"><h4>Wallpaper</h4></div>
+                        <button class="btn-sec" onclick="document.getElementById('file').click()">Select</button>
+                        <input type="file" id="file" hidden accept="image/*">
+                    </div>
+                    <div class="row">
+                        <div class="info"><h4>Tab Icon</h4></div>
+                        <button class="btn-sec" onclick="document.getElementById('fav-up').click()">Upload</button>
+                        <input type="file" id="fav-up" hidden accept="image/*">
+                    </div>
+                    <div class="row">
+                        <div class="info"><h4>Font</h4></div>
+                        <select id="font" class="select" onchange="save()">
+                            <option value="'Inter', sans-serif">Inter (Clean)</option>
+                            <option value="'JetBrains Mono', monospace">Mono (Code)</option>
+                            <option value="'Playfair Display', serif">Playfair (Serif)</option>
+                        </select>
+                    </div>
+                    <div class="row">
+                        <div class="info"><h4>Accent</h4></div>
+                        <input type="color" id="acc" style="background:none; border:none; width:40px; cursor:pointer" oninput="save()">
+                    </div>
+                    <div class="row">
+                        <div class="info"><h4>Scale</h4></div>
+                        <input type="range" id="scale" min="4" max="10" step="0.5" class="range" oninput="save()">
+                    </div>
+                </div>
+
+                <div id="tab-priv" class="panel">
+                    <div class="row">
+                        <div class="info"><h4>Weather</h4></div>
+                        <label class="switch"><input type="checkbox" id="w-en" onchange="save()"><span class="slider"></span></label>
+                    </div>
+                    <div class="row">
+                        <div class="info"><h4>Hide Loc</h4><p>Mask city name</p></div>
+                        <label class="switch"><input type="checkbox" id="w-hide" onchange="save()"><span class="slider"></span></label>
+                    </div>
+                    <div class="row">
+                        <div class="info"><h4>Celsius</h4></div>
+                        <label class="switch"><input type="checkbox" id="cel" onchange="save()"><span class="slider"></span></label>
+                    </div>
+                    <div class="row">
+                        <div class="info"><h4>Reset</h4></div>
+                        <button class="btn-sec" style="color:#d55; border-color:#522" onclick="wipe()">Wipe Data</button>
+                    </div>
+                </div>
+
+                <div id="tab-lay" class="panel">
+                    <div class="row">
+                        <div class="info"><h4>Sidebar</h4><p>Screen side</p></div>
+                        <select id="side" class="select" onchange="save()">
+                            <option value="left">Left</option>
+                            <option value="right">Right</option>
+                        </select>
+                    </div>
+                    <div class="row">
+                        <div class="info"><h4>Format</h4><p>12h / 24h</p></div>
+                        <label class="switch"><input type="checkbox" id="fmt24" onchange="save()"><span class="slider"></span></label>
+                    </div>
+                    <div class="row">
+                        <div class="info"><h4>Zen</h4><p>Focus mode</p></div>
+                        <label class="switch"><input type="checkbox" id="zen" onchange="save()"><span class="slider"></span></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
